@@ -20,30 +20,21 @@ pipeline {
     }
     stage('Test') {
       steps {
-        script {
-          try {
-            sh '''
-              cd build
-              make test
-            '''
-          } catch (err) {
-            echo "Failed: ${err}"
-          } finally {
-            step([
-              $class: 'XUnitBuilder',
-              thresholds: [[$class: 'FailedThreshold', unstableThreshold: '1']],
-              tools: [[$class: 'GoogleTestType', pattern: 'build/Testing/*.xml']]
-            ])
-          }
+        sh 'cd build && make test'
+      }
+      post {
+        always {
+          step([
+            $class: 'XUnitBuilder',
+            thresholds: [[$class: 'FailedThreshold', unstableThreshold: '1']],
+            tools: [[$class: 'GoogleTestType', pattern: 'build/Testing/*.xml']]
+          ])
         }
       }
     }
     stage('Doxygen') {
       steps {
-        sh '''
-          cd build
-          make doc
-        '''
+        sh 'cd build && make doc'
         publishHTML( target: [
           allowMissing: false,
           alwaysLinkToLastBuild: false,
@@ -56,20 +47,17 @@ pipeline {
     }
     stage('Deploy') {
       steps {
-        sh '''
-          cd build
-          make package
-        '''
+        sh 'cd build && make package'
       }
     }
   }
   post {
     success {
       archiveArtifacts artifacts: "build/jenkins-workshop-*", fingerprint: true
-      mail to: 'bernd.doser@h-its.org', subject: "SUCCESS: ${currentBuild.fullDisplayName}", body: "All fine."
+      mail to: 'bernd.doser@h-its.org', subject: "SUCCESS: ${currentBuild.fullDisplayName}", body: "Success: ${env.BUILD_URL}"
     }
     failure {
-      mail to: 'bernd.doser@h-its.org', subject: "FAILURE: ${currentBuild.fullDisplayName}", body: "Error: ${env.BUILD_URL}"
+      mail to: 'bernd.doser@h-its.org', subject: "FAILURE: ${currentBuild.fullDisplayName}", body: "Failure: ${env.BUILD_URL}"
     }
   }
 }

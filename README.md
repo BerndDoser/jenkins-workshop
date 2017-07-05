@@ -9,6 +9,8 @@ Requirements
 ------------
 
 - cmake (version >= 3.0, http://www.cmake.org)
+- google-test (1.8.0, optional)
+- doxygen (1.8.13, optional)
 
 Compilation and Test
 --------------------
@@ -18,4 +20,6 @@ mkdir build && cd build
 cmake ..
 make
 make test
+make doc
+make package
 ```
