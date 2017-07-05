@@ -14,7 +14,7 @@ pipeline {
           mkdir -p build
           cd build
           cmake ..
-          make > make.out
+          make >& make.out
         '''
       }
       post {
