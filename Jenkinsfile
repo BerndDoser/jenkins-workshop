@@ -65,7 +65,7 @@ pipeline {
   }
   post {
     success {
-      archiveArtifacts artifacts: "build/jenkins_workshop-*-Linux.deb", fingerprint: true
+      archiveArtifacts artifacts: "build/jenkins-workshop-*", fingerprint: true
       mail to: 'bernd.doser@h-its.org', subject: "SUCCESS: ${currentBuild.fullDisplayName}", body: "All fine."
     }
     failure {
