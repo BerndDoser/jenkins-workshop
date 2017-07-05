@@ -10,8 +10,10 @@
 
 TEST(GalaxyTest, mass)
 {
-    Star star {{0.0, 0.0, 0.0}, 2.0};
-    Galaxy galaxy {{Star{{0.0, 0.0, 0.0}, 2.0}, Star{{1.0, 1.0, 1.0}, 5.0}}};
+    Galaxy galaxy {{
+      Star{{0.0, 0.0, 0.0}, 2.0},
+      Star{{1.0, 0.0, 0.0}, 5.0}
+    }};
 
     EXPECT_EQ(galaxy.get_mass(), 7.0);
 }
