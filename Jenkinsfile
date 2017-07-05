@@ -2,7 +2,7 @@
 
 pipeline {
   agent {
-    dockerfile {
+    docker {
       image 'bernddoser/docker-devel-cpp:ubuntu-17.04-gcc-7-gtest-1.8.0-doxygen-1.8.13'
       label 'docker-nodes'
     }
@@ -65,19 +65,11 @@ pipeline {
   }
   post {
     success {
-      archiveArtifacts
-        artifacts: 'build/jenkins_workshop-*-Linux.deb',
-        fingerprint: true
-      mail
-        to: 'bernd.doser@h-its.org',
-        subject: "SUCCESS: ${currentBuild.fullDisplayName}",
-        body: "All fine."
+      archiveArtifacts artifacts: "build/jenkins_workshop-*-Linux.deb", fingerprint: true
+      mail to: 'bernd.doser@h-its.org', subject: "SUCCESS: ${currentBuild.fullDisplayName}", body: "All fine."
     }
     failure {
-      mail
-        to: 'bernd.doser@h-its.org',
-        subject: "FAILURE: ${currentBuild.fullDisplayName}",
-        body: "Error: ${env.BUILD_URL}"
+      mail to: 'bernd.doser@h-its.org', subject: "FAILURE: ${currentBuild.fullDisplayName}", body: "Error: ${env.BUILD_URL}"
     }
   }
 }
