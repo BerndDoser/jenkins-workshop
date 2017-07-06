@@ -1,7 +1,9 @@
 #!groovy
 
 pipeline {
-  agent none
+  agent {
+    label 'docker'
+  }
   stages {
     stage('Build') {
       steps {
@@ -10,7 +12,7 @@ pipeline {
             agent {
               docker {
                 image 'bernddoser/docker-devel-cpp:ubuntu-17.04-gcc-7-gtest-1.8.0-doxygen-1.8.13'
-                label 'docker-nodes'
+                reuseNode true
               }
             }
             steps {
@@ -36,7 +38,7 @@ pipeline {
             agent {
               docker {
                 image 'bernddoser/docker-devel-cpp:ubuntu-16.04-clang-4.0-gtest-1.8.0'
-                label 'docker-nodes'
+                reuseNode true
               }
             }
             steps {
@@ -68,7 +70,7 @@ pipeline {
             agent {
               docker {
                 image 'bernddoser/docker-devel-cpp:ubuntu-17.04-gcc-7-gtest-1.8.0-doxygen-1.8.13'
-                label 'docker-nodes'
+                reuseNode true
               }
             }
             steps {
@@ -88,7 +90,7 @@ pipeline {
             agent {
               docker {
                 image 'bernddoser/docker-devel-cpp:ubuntu-16.04-clang-4.0-gtest-1.8.0'
-                label 'docker-nodes'
+                reuseNode true
               }
             }
             steps {
@@ -108,6 +110,12 @@ pipeline {
       }
     }
     stage('Doxygen') {
+      agent {
+        docker {
+          image 'bernddoser/docker-devel-cpp:ubuntu-17.04-gcc-7-gtest-1.8.0-doxygen-1.8.13'
+          reuseNode true
+        }
+      }
       steps {
         sh 'cd build-gcc-7 && make doc'
         publishHTML( target: [
@@ -121,6 +129,12 @@ pipeline {
       }
     }
     stage('Deploy') {
+      agent {
+        docker {
+          image 'bernddoser/docker-devel-cpp:ubuntu-17.04-gcc-7-gtest-1.8.0-doxygen-1.8.13'
+          reuseNode true
+        }
+      }
       steps {
         sh 'cd build-gcc-7 && make package'
       }
