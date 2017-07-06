@@ -130,7 +130,7 @@ pipeline {
   }
   post {
     success {
-      archiveArtifacts artifacts: "build/jenkins-workshop-*", fingerprint: true
+      archiveArtifacts artifacts: "build*/jenkins-workshop*", fingerprint: true
       mail to: 'bernd.doser@h-its.org', subject: "SUCCESS: ${currentBuild.fullDisplayName}", body: "Success: ${env.BUILD_URL}"
     }
     failure {
