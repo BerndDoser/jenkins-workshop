@@ -4,7 +4,6 @@ pipeline {
   agent {
     docker {
       image 'bernddoser/docker-devel-cpp:ubuntu-17.04-gcc-7-gtest-1.8.0-doxygen-1.8.13'
-      label 'docker-nodes'
     }
   }
   stages {
