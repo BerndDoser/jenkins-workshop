@@ -1,9 +1,7 @@
 #!groovy
 
 pipeline {
-  agent {
-    label 'docker'
-  }
+  agent none
   stages {
     stage('Build-gcc-7') {
       agent {
