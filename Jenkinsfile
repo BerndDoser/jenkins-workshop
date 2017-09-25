@@ -80,7 +80,7 @@ pipeline {
               ])
             }
           }
-        },
+        }
         stage('clang-4.0') {
           agent {
             docker {
